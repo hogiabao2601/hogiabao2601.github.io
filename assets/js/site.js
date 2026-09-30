@@ -48,30 +48,49 @@
     });
   }
 
-  // Mark the nav link for the section in view.
+  // Mark the nav link for the section in view: the last section whose top
+  // has passed 45% of the viewport, nothing over the intro, and the last
+  // section once the page is scrolled to the end (it may never reach 45%
+  // on a tall screen).
   var links = Array.prototype.slice.call(document.querySelectorAll(".nav a[href^='#']"));
-  if (links.length && "IntersectionObserver" in window) {
-    var byId = {};
-    links.forEach(function (a) {
-      byId[a.getAttribute("href").slice(1)] = a;
-    });
-    var navObserver = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          links.forEach(function (a) {
-            a.removeAttribute("aria-current");
-          });
-          var active = byId[entry.target.id];
-          if (active) active.setAttribute("aria-current", "true");
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" }
-    );
-    Object.keys(byId).forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) navObserver.observe(el);
-    });
+  var targets = [];
+  links.forEach(function (a) {
+    var el = document.getElementById(a.getAttribute("href").slice(1));
+    if (el) targets.push({ link: a, el: el });
+  });
+  if (targets.length) {
+    var current = null;
+    var markNav = function () {
+      var root = document.documentElement;
+      var line = window.innerHeight * 0.45;
+      var atEnd = window.scrollY > 0 && window.innerHeight + window.scrollY >= root.scrollHeight - 4;
+      var active = null;
+      if (atEnd) {
+        active = targets[targets.length - 1];
+      } else {
+        for (var i = 0; i < targets.length; i++) {
+          if (targets[i].el.getBoundingClientRect().top <= line) active = targets[i];
+        }
+      }
+      if (active === current) return;
+      current = active;
+      targets.forEach(function (t) {
+        if (t === active) t.link.setAttribute("aria-current", "true");
+        else t.link.removeAttribute("aria-current");
+      });
+    };
+    var navQueued = false;
+    var queueNav = function () {
+      if (navQueued) return;
+      navQueued = true;
+      window.requestAnimationFrame(function () {
+        navQueued = false;
+        markNav();
+      });
+    };
+    window.addEventListener("scroll", queueNav, { passive: true });
+    window.addEventListener("resize", queueNav);
+    markNav();
   }
 
   // Transaction stream: a small simulation of transaction monitoring.
