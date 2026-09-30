@@ -1123,6 +1123,13 @@ code {
   .edu {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  /* Narrow two-column cards: year and badge above the title, so the
+     title keeps the full card width. */
+  .case-top {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 6px;
+  }
 }
 
 @media (max-width: 760px) {
@@ -1199,11 +1206,6 @@ code {
   .stack,
   .edu {
     grid-template-columns: minmax(0, 1fr);
-  }
-  .case-top {
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    gap: 6px;
   }
   .role {
     grid-template-columns: minmax(0, 1fr);
