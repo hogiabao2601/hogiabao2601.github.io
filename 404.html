@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found · Ho Gia Bao</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b0c0d">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <style>
+    .notfound {
+      min-height: calc(100vh - var(--topbar-h) - 90px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+    .notfound .code {
+      font: 500 clamp(64px, 14vw, 140px)/1 var(--mono);
+      letter-spacing: -0.04em;
+      color: var(--accent);
+    }
+    .notfound p {
+      margin-top: 18px;
+      max-width: 32em;
+      font-size: 18px;
+    }
+    .notfound .actions {
+      margin-top: 32px;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="/">hogiabao<span class="cursor" aria-hidden="true"></span></a>
+    </div>
+  </header>
+  <main class="wrap notfound">
+    <p class="code">404</p>
+    <p>There's nothing at this address. The page may have moved, or the link has a typo.</p>
+    <div class="actions">
+      <a class="btn primary" href="/">Back to the home page <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="wrap">
+      <span>Ho Gia Bao</span>
+      <span>Singapore</span>
+    </div>
+  </footer>
+</body>
+</html>
